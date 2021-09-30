@@ -2,6 +2,7 @@
 from flask import Flask
 from flask import render_template
 from flask import request
+from flask import redirect
 from Model.TestMethods import NumberGuessing
 
 app = Flask(__name__)
@@ -18,8 +19,8 @@ def index():
 def guess_number():
     if request.method == 'POST':
         value = NumberGuess.guess(int(request.form['guess']))
-        if value == -999:
-            message = "You ran out of guesses."
+        if value == -999 or NumberGuess.tries == 0:
+            return redirect("/")
 
         elif value == 1:
             message = "Your guess is too large. Try again. You have " + str(NumberGuess.tries) + " left."
@@ -31,6 +32,11 @@ def guess_number():
 
         return render_template('index.html', content=message)
 
+@app.route("/reset", methods=['POST', 'GET'])
+def reset_number():
+    if request.method == "POST":
+        NumberGuess.reset()
+        return render_template('index.html', content="New Game beginning!")
 
 if __name__ == "__main__":
     app.run("0.0.0.0", 4096)
