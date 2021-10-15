@@ -1,14 +1,43 @@
 <!doctype html>
 <title>Guessing Game</title>
 <body>
+
 	<h1> Guess a number between 0-100. You have seven tries. </h1>
     <form action="/guess" method="post">
 	<input type="text" name="guess" />
         <input type="submit" value="Submit"/>
    </form>
     <form action="/reset" method="post">
-
         <input type="submit" value="Reset"/>
     </form>
    <p>{{ content }}</p>
+
+   <div class = "row">
+        <div class = "column">
+            <h1> Movies with Least Amount of Ratings </h1>
+            {% for item in data1 %}
+                <p> {{ item }} </p>
+            {% endfor %}
+        </div>
+        <div class = "column">
+            <h1> Movies with Most Amount of Ratings </h1>
+                {% for item in data2 %}
+                    <p> {{ item }} </p>
+                {% endfor %}
+        </div>
+    </div>
+
+   <style>
+           .column {
+          float: left;
+          width: 50%;
+        }
+
+        /* Clear floats after the columns */
+        .row:after {
+          content: "";
+          display: table;
+          clear: both;
+        }
+    </style>
 </body>

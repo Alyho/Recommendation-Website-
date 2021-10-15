@@ -14,14 +14,14 @@ Return both a list of the least rated and most rated movies
 
 
 def getMovieRatingsThings() -> [list, list]:
-    df_ratings: pd.DataFrame = pd.read_csv('ratings.dat', sep="::",
+    df_ratings: pd.DataFrame = pd.read_csv('Model/ratings.dat', sep="::",
                                            names=['user_id', 'movie_id', 'rating', 'timestamp']).drop('timestamp',
                                                                                                       1).pivot(
         index='movie_id',
         columns='user_id',
         values='rating'
     )
-    df_movies: pd.DataFrame = pd.read_csv('movies.dat', sep="::", names=['movie_id', 'title', 'genre'],
+    df_movies: pd.DataFrame = pd.read_csv('Model/movies.dat', sep="::", names=['movie_id', 'title', 'genre'],
                                           encoding='windows-1252')
     df_movie_dict = dict(zip(df_movies.movie_id, df_movies.title))
 
@@ -45,7 +45,7 @@ def getMovieRatingsThings() -> [list, list]:
         if (j > 100):
             break
 
-        return listOfLowestRatedMovies, listOfHighestRatedMovies
+    return listOfLowestRatedMovies, listOfHighestRatedMovies
 
 
 class NumberGuessing:
