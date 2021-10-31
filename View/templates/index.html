@@ -1,16 +1,21 @@
 <!doctype html>
-<title>Guessing Game</title>
+<title>Movie Recommendation</title>
 <body>
 
-	<h1> Guess a number between 0-100. You have seven tries. </h1>
-    <form action="/guess" method="post">
-	<input type="text" name="guess" />
-        <input type="submit" value="Submit"/>
-   </form>
+	<h1> Movie Recommendation</h1>
+    <form action="/recc" method="post">
+	<input type="text" name="gender" placeholder = "Gender"/>
+    <input type = "text" name = "age" placeholder = "Age" />
+    <input type = "text" name = "occ" placeholder = "Occupation"/>
+    <input type = "text" name = "zip" placeholder = "Zipcode" />
+    <input type="submit" value="Submit"/>
+    </form>
     <form action="/reset" method="post">
         <input type="submit" value="Reset"/>
     </form>
-   <p>{{ content }}</p>
+   {% for item in content %}
+       <p> {{ item }} </p>
+   {% endfor %}
 
    <div class = "row">
         <div class = "column">
@@ -39,5 +44,6 @@
           display: table;
           clear: both;
         }
+
     </style>
 </body>

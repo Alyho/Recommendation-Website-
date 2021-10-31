@@ -50,6 +50,11 @@ def getMovieRatingsThings() -> [list, list]:
 
     return listOfLowestRatedMovies, listOfHighestRatedMovies
 
+def getRecommendedMovies(gender, age, occupation, zipcode):
+    list = [gender, age, occupation, zipcode]
+    return list 
+
+
 
 class NumberGuessing:
 
