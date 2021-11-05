@@ -17,14 +17,14 @@ Return both a list of the least rated and most rated movies
 
 def getMovieRatingsThings() -> [list, list]:
     prefix = pathlib.Path(__file__).parent.resolve().__str__()
-    df_ratings: pd.DataFrame = pd.read_csv(  prefix+'/ratings.dat', sep="::",
+    df_ratings: pd.DataFrame = pd.read_csv(prefix + '/ratings.dat', sep="::",
                                            names=['user_id', 'movie_id', 'rating', 'timestamp']).drop('timestamp',
                                                                                                       1).pivot(
         index='movie_id',
         columns='user_id',
         values='rating'
     )
-    df_movies: pd.DataFrame = pd.read_csv(prefix+'/movies.dat', sep="::", names=['movie_id', 'title', 'genre'],
+    df_movies: pd.DataFrame = pd.read_csv(prefix + '/movies.dat', sep="::", names=['movie_id', 'title', 'genre'],
                                           encoding='windows-1252')
     df_movie_dict = dict(zip(df_movies.movie_id, df_movies.title))
 
@@ -50,43 +50,13 @@ def getMovieRatingsThings() -> [list, list]:
 
     return listOfLowestRatedMovies, listOfHighestRatedMovies
 
-def getRecommendedMovies(gender, age, occupation, zipcode):
+
+# @DeprecationWarning
+def wrapMovies(gender, age, occupation, zipcode):
     list = [gender, age, occupation, zipcode]
-    return list 
-
-
-
-class NumberGuessing:
-
-    def __init__(self, value_range=(0, 100)):
-        self.num = randint(*value_range)
-        self.tries = int(math.log2(value_range[-1] - value_range[0])) + 1
-
-    # Guess too large -> Your guess was larger than the real number
-    # Guess too small -> Your guess was smaller than the real number
-    def guess(self, guess: int):
-        # If you used all your tries:
-        if self.tries <= 0: return -999
-
-        value = -1
-
-        # How close is the guess?
-        if guess > self.num:
-            value = GuessTooLarge
-        elif guess < self.num:
-            value = GuessTooSmall
-        else:
-            value = CorrectGuess
-
-        # One attempt
-        if value != 0: self.tries -= 1
-
-        # Return value
-        return value
-
-    def reset(self, value_range=(0, 100)):
-        self.num = randint(*value_range)
-        self.tries = int(math.log2(value_range[-1] - value_range[0])) + 1
+    l = '0' + "::" + gender + "::" + age
+    print(l)
+    return l
 
 
 if __name__ == "__main__":
