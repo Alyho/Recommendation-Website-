@@ -1,5 +1,6 @@
 #Routes
 import time
+import random
 
 from flask import Flask
 from flask import render_template
@@ -8,21 +9,31 @@ from flask import redirect
 from Model import TestMethods
 from Model.Model import Model
 
+
 app = Flask(__name__)
 
 tries = 7
 
 # NumberGuess = NumberGuessing()
+
 GetMovies = TestMethods.getMovieRatingsThings()
+
+def resetList():
+    list = GetMovies
+    list1 = random.sample(list[0], 5)
+    list2 = random.sample(list[1], 10)
+    return list2 + list1
 
 @app.route("/")
 def index():
-    list = GetMovies
     #NumberGuess.reset()
-    return render_template('index.html', data1 = list[0], data2 = list[1])
+    global movieList 
+    movieList = resetList()
+    return render_template('index.html', data = movieList)
 
-@app.route("/recc", methods=['POST', 'GET'])
+@app.route("/lr", methods=['POST', 'GET'])
 def guess_number():
+    global movieList
     if m.loaded:
         list = GetMovies
         if request.method == 'POST':
@@ -50,14 +61,37 @@ def guess_number():
             movies = j
             # print(m.predict(userfeatures, movies[0]))
 
-            return render_template('index.html', content=movies, data1 = list[0], data2 = list[1])
+            return render_template('index.html', content=movies, data = movieList)
+
+@app.route("/nn", methods=['POST', 'GET'])
+def nueral_network():
+    global movieList
+    ratingsList = []
+    if request.method == "POST":
+        #NumberGuess.reset()
+        for i in range(len(movieList)):
+            rating = [movieList[i], request.form['stars' + str(i + 1)]]
+            ratingsList.append(rating)
+
+        #Neural Network Call here
+        #recommendedMovies = neuralnetwork(ratingsList)
+
+        return render_template('index.html', data = movieList, recc = ratingsList)
 
 @app.route("/reset", methods=['POST', 'GET'])
 def reset_number():
-    list = GetMovies
+    global movieList
     if request.method == "POST":
         #NumberGuess.reset()
-        return render_template('index.html', data1 = list[0], data2 = list[1])
+        return render_template('index.html', data = movieList)
+
+@app.route("/reset2", methods=['POST', 'GET'])
+def reset_movies():
+    global movieList
+    if request.method == "POST":
+        movieList = resetList()
+        #NumberGuess.reset()
+        return render_template('index.html', data = movieList)
 
 if __name__ == "__main__":
     import threading
